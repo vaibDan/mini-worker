@@ -1,0 +1,16 @@
+services:
+  api:
+    build: .
+    command: node api/index.js
+    ports:
+      - "3000:3000"
+    env_file: .env
+    volumes:
+      - ./outputs:/app/outputs
+
+  worker:
+    build: .
+    command: node worker/index.js
+    env_file: .env
+    volumes:
+      - ./outputs:/app/outputs   # same volume — api + worker share the outputs folder
