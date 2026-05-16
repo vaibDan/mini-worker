@@ -31,6 +31,7 @@ app.put('/v2/service_instances/:id', async (req, res) => {
     })
 })
 
+// ── S3 bucket provisioning ──
 app.put('/v2/service_instances/s3/:id', async (req, res) => {
     const instanceId = req.params.id
     const { bucketName, region, versioning } = req.body
@@ -93,6 +94,58 @@ app.delete('/v2/service_instances/s3/:id', async (req, res) => {
     })
 })
 
+// ── launch EC2 ──
+app.put('/v2/service_instances/ec2/:id', async (req, res) => {
+    const instanceId = req.params.id
+    const { amiId, instanceType, region } = req.body
+
+    if (!amiId || !instanceType) {
+        return res.status(400).json({ error: 'amiId and instanceType are required' })
+    }
+
+    await createInstance(instanceId, {
+        task: 'launch_ec2',
+        amiId,
+        instanceType,
+        region: region ?? process.env.AWS_REGION
+    })
+
+    await sendMessage({
+        instanceId,
+        task: 'launch_ec2',
+        amiId,
+        instanceType,
+        region: region ?? process.env.AWS_REGION
+    })
+
+    res.status(202).json({
+        instance_id: instanceId,
+        status: 'PENDING',
+        message: `EC2 instance launch started.`
+    })
+})
+
+// ── stop EC2 ──
+app.put('/v2/service_instances/ec2/:id/stop', async (req, res) => {
+    const instanceId = req.params.id
+    const { ec2InstanceId, region } = req.body
+
+    await createInstance(instanceId, { task: 'stop_ec2', ec2InstanceId, region })
+    await sendMessage({ instanceId, task: 'stop_ec2', ec2InstanceId, region })
+
+    res.status(202).json({ instance_id: instanceId, status: 'PENDING' })
+})
+
+// ── terminate EC2 ──
+app.delete('/v2/service_instances/ec2/:id', async (req, res) => {
+    const instanceId = req.params.id
+    const { ec2InstanceId, region } = req.body
+
+    await createInstance(instanceId, { task: 'terminate_ec2', ec2InstanceId, region })
+    await sendMessage({ instanceId, task: 'terminate_ec2', ec2InstanceId, region })
+
+    res.status(202).json({ instance_id: instanceId, status: 'PENDING' })
+})
 
 // ── Poll for status ──
 app.get('/v2/service_instances/:id/last_operation', async (req, res) => {
