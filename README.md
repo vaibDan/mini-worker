@@ -194,7 +194,7 @@ docker compose logs -f api
 ```bash
 curl -X PUT http://localhost:3000/v2/service_instances/ec2/job-001 \
   -H "Content-Type: application/json" \
-  -d '{"amiId": "ami-0f5ee92e2d63afc18", "instanceType": "t2.micro", "region": "ap-south-1"}'
+  -d '{"amiId": "ami-091138d0f0d41ff90", "instanceType": "t2.micro", "region": "ap-south-1"}'
 ```
 
 **Poll status:**
