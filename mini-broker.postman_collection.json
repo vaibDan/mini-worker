@@ -173,37 +173,6 @@
         }
       },
       "response": []
-    },
-    {
-      "name": " http://localhost:3000/v2/service_instances/ec2/job-ec2-001",
-      "request": {
-        "method": "PUT",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n  \"amiId\": \"ami-0f5ee92e2d63afc18\",\r\n  \"instanceType\": \"t2.micro\",\r\n  \"region\": \"us-east-1\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "http://localhost:3000/v2/service_instances/ec2/job-ec2-001",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "3000",
-          "path": [
-            "v2",
-            "service_instances",
-            "ec2",
-            "job-ec2-001"
-          ]
-        }
-      },
-      "response": []
     }
   ]
 }
