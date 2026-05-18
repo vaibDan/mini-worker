@@ -4,7 +4,7 @@ Self-service AWS infrastructure provisioning via REST API.
 Inspired by Atlassian's internal Open Service Broker talk.
 
 ## Architecture
-[paste the SVG diagram here]
+![DLQ Flow](./docs/dlq.png)
 
 ## Running locally
 npm run api      # terminal 1
