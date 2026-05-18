@@ -6,6 +6,14 @@ Inspired by Atlassian's internal Open Service Broker talk.
 ## Architecture
 [paste the SVG diagram here]
 
+## Running locally
+npm run api      # terminal 1
+npm run worker   # terminal 2
+
+### With Docker
+docker compose up --build
+
+
 ## Supported resources
 | Resource | Operations |
 |----------|-----------|
